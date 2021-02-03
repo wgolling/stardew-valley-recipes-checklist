@@ -1,3 +1,7 @@
+v0.1
+----
+- create basic app structure
+
 v0.0
 ----
 - init repo
