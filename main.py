@@ -1,7 +1,9 @@
 """Main entry point of the program."""
 
+import app
+
 def main():
-    print("Hello!")
+    app.run()
 
 if __name__ == "__main__":
     main()
