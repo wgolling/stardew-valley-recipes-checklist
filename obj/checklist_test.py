@@ -59,3 +59,28 @@ class TestChecklist(unittest.TestCase):
         }
         result = self.chkl.ingredients
         assert(result == expected)
+
+    def test_toggle_recipe(self):
+        self.assertRaises(ValueError, self.chkl.toggle_recipe, "Bip")
+        self.chkl.toggle_recipe("Baz")
+        expected = {
+            "Ing1": 5,
+            "Ing2": 10,
+            "Ing3": 3
+        }
+        assert(self.chkl.ingredients == expected)
+        self.chkl.toggle_recipe("Foo")
+        self.chkl.toggle_recipe("Bar")
+        expected = {
+            "Ing1": 0,
+            "Ing2": 0,
+            "Ing3": 0
+        }
+        assert(self.chkl.ingredients == expected)
+        self.chkl.toggle_recipe("Bar")
+        expected = {
+            "Ing1": 4,
+            "Ing2": 8,
+            "Ing3": 3
+        }
+        assert(self.chkl.ingredients == expected)

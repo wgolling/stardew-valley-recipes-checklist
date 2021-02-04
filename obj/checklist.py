@@ -43,6 +43,7 @@ class Checklist():
     
     Attributes:
         recipes (dict): A dictionary representing a collection of recipes.
+        completed (set): A set containing the recipes that have been compelted.
         ingredients (dict): A dictionary of raw ingredients and the quantities
             needed to complete all of the recipes.
     
@@ -53,12 +54,20 @@ class Checklist():
         
         Args:
             recipes_dict (dict): A dictionary representing a collection of recipes.
-                The keys are recipes names as strings, and each value is itself a
+                The keys are recipe names as strings, and each value is itself a
                 dictionary, whose keys are ingredient name strings and whose values
                 are non-negative integers.
-        
+
+        Raises:
+            ValueError: If `recipes_dict` is not a dictionary.
+            ValueError: If the keys of `recipes_dict` are not strings.
+            ValueError: If the values of `recipes_dict` are not dictionaries.
+            ValueError: If `recipes_dict`'s values keys are not strings.
+            ValueError: If `recipes_dict`'s values' values are not ints.
+     
         """
         self.recipes = Checklist._validate_input(recipes_dict)
+        self.completed = set()
         self.ingredients = Checklist._flatten_recipes_to_ingredients(self.recipes)
 
     @staticmethod
@@ -131,6 +140,28 @@ class Checklist():
             else:
                 add_key_value_to_dict(ing, amt, result)
         return result
+
+    def toggle_recipe(self, recipe_string):
+        """Marks/unmarks the given recipe as complete, and updates its raw ingredients.
+        
+        Args:
+            recipe_string (str): The name of the recipe.
+
+        Raises:
+            ValueError: If `recipe_string` is not in the recipes table.
+
+        """
+        if recipe_string not in self.recipes:
+            raise ValueError("Recipe not recognized.")
+        if recipe_string in self.completed:
+            self.completed.remove(recipe_string)
+            multiplier = 1
+        else:
+            self.completed.add(recipe_string)
+            multiplier = -1
+        recipe = self.recipes[recipe_string]
+        raw_ingredients = self._get_raw_ingredients(recipe, self.recipes)
+        add_dicts(self.ingredients, raw_ingredients, multiplier=multiplier)
 
     def print_recipes(self):
         print(self.recipes)
