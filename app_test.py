@@ -45,3 +45,12 @@ class TestChecklist(unittest.TestCase):
             "Foo": {"ing": "not an int"}
         }
         self.assertRaises(ValueError, Checklist, invalid_amount)
+
+    def test_flatten_recipes_to_ingredients(self):
+        expected = {
+            "Ing1": 14,
+            "Ing2": 28,
+            "Ing3": 9
+        }
+        result = self.chkl.ingredients
+        assert(result == expected)
