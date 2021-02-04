@@ -37,6 +37,13 @@ def add_dicts(d1, d2, multiplier=1):
     for k, v in d2.items():
         add_key_value_to_dict(k, multiplier * v, d1)
 
+def dict_to_string(d):
+    """Returns a readable string representing a dictionary."""
+    result = ""
+    for k, v in d.items():
+        result += str(k) + ": " + str(v) + "\n"
+    return result
+
 
 class Checklist():
     """Manages a dictionary of recipes and a checklist of ingredients.
@@ -170,4 +177,7 @@ class Checklist():
         add_dicts(self.ingredients, raw_ingredients, multiplier=sign)
 
     def print_recipes(self):
-        print(self.recipes)
+        print(dict_to_string(self.recipes))
+
+    def print_ingredients(self):
+        print(dict_to_string(self.ingredients))

@@ -9,8 +9,10 @@ def run():
     data_path = Path(".") / "data"
     cook = Checklist(load_json(data_path / "cooking_recipes.json"))
     cook.print_recipes()
+    cook.print_ingredients()
     crft = Checklist(load_json(data_path / "crafting_recipes.json"))
     crft.print_recipes()
+    crft.print_ingredients()
 
 def load_json(file_path):
     data = None
