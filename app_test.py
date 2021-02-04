@@ -46,6 +46,11 @@ class TestChecklist(unittest.TestCase):
         }
         self.assertRaises(ValueError, Checklist, invalid_amount)
 
+        negative_amount = {
+            "Foo": {"ing": -1}
+        }
+        self.assertRaises(ValueError, Checklist, negative_amount)
+
     def test_flatten_recipes_to_ingredients(self):
         expected = {
             "Ing1": 14,

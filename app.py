@@ -91,6 +91,8 @@ class Checklist():
             result = int(value)
         except ValueError as e:
             raise ValueError("All ingredient quantities must be integers.") from e
+        if result < 0:
+            raise ValueError("All ingredient quantities must be non-negative.")
         return result
 
     @staticmethod
