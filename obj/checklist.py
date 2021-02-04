@@ -148,7 +148,7 @@ class Checklist():
         return result
 
     def toggle_recipe(self, recipe_string):
-        """Marks/unmarks the given recipe as complete, and updates its raw ingredients.
+        """Marks/unmarks the given recipe as complete and updates the ingredients table.
         
         Args:
             recipe_string (str): The name of the recipe.
@@ -161,13 +161,13 @@ class Checklist():
             raise ValueError("Recipe not recognized.")
         if recipe_string in self.completed:
             self.completed.remove(recipe_string)
-            multiplier = 1
+            sign = 1
         else:
             self.completed.add(recipe_string)
-            multiplier = -1
+            sign = -1
         recipe = self.recipes[recipe_string]
         raw_ingredients = self._get_raw_ingredients(recipe, self.recipes)
-        add_dicts(self.ingredients, raw_ingredients, multiplier=multiplier)
+        add_dicts(self.ingredients, raw_ingredients, multiplier=sign)
 
     def print_recipes(self):
         print(self.recipes)
