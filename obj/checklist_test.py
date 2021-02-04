@@ -21,6 +21,9 @@ class TestChecklist(unittest.TestCase):
         }
         d = Checklist(string_int)
         assert(d.recipes["Buh"]["Ing"] == 2)
+        completed = {"Bar"}
+        chkl = Checklist(TestChecklist.TEST_RECIPES, completed=completed)
+        assert(chkl.completed == completed)
 
     def test_bad_constructor_input(self):
         not_a_dict = "foo"
@@ -50,6 +53,13 @@ class TestChecklist(unittest.TestCase):
             "Foo": {"ing": -1}
         }
         self.assertRaises(ValueError, Checklist, negative_amount)
+
+        not_a_set = 50
+        self.assertRaises(
+            TypeError, 
+            Checklist,
+            TestChecklist.TEST_RECIPES, 
+            completed=not_a_set)
 
     def test_flatten_recipes_to_ingredients(self):
         expected = {

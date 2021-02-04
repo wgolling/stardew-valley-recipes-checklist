@@ -49,14 +49,15 @@ class Checklist():
     
     """
 
-    def __init__(self, recipes_dict):
-        """Construsts a Checklist object given a dictionary of recipes.
+    def __init__(self, recipes_dict, completed=None):
+        """Constructs a Checklist object given a dictionary of recipes.
         
         Args:
-            recipes_dict (dict): A dictionary representing a collection of recipes.
-                The keys are recipe names as strings, and each value is itself a
-                dictionary, whose keys are ingredient name strings and whose values
-                are non-negative integers.
+            recipes_dict (dict): A dictionary representing a collection of
+                recipes. The keys are recipe names as strings, and each value
+                is itself a dictionary, whose keys are ingredient name strings
+                and whose values are non-negative integers.
+            completed (:obj:`set`, optional): A set of recipes that are already completed.
 
         Raises:
             ValueError: If `recipes_dict` is not a dictionary.
@@ -64,10 +65,15 @@ class Checklist():
             ValueError: If the values of `recipes_dict` are not dictionaries.
             ValueError: If `recipes_dict`'s values keys are not strings.
             ValueError: If `recipes_dict`'s values' values are not ints.
+            TypeError: If `completed` is not iterable.
      
         """
         self.recipes = Checklist._validate_input(recipes_dict)
         self.completed = set()
+        if completed != None:
+            for recipe in completed:
+                if recipe in self.recipes:
+                    self.completed.add(recipe)
         self.ingredients = Checklist._flatten_recipes_to_ingredients(self.recipes)
 
     @staticmethod
