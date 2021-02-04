@@ -1,6 +1,7 @@
 v0.1
 ----
 - create basic app structure
+- write and test Checklist object
 
 v0.0
 ----
