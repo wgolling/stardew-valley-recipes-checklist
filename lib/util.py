@@ -1,3 +1,5 @@
+import json
+
 def add_key_value_to_dict(k, v, d):
     """Adds a key value pair to a dictionary with integer values.
 
@@ -36,3 +38,10 @@ def dict_to_string(d):
     for k, v in d.items():
         result += str(k) + ": " + str(v) + "\n"
     return result
+
+def load_json(file_path):
+    """Tries to load the json in the given file path."""
+    data = None
+    with open(file_path) as f:
+        data = json.load(f)
+    return data

@@ -1,12 +1,11 @@
 """Main app file."""
 
-import json
 from pathlib import Path
 import tkinter as tk
 
 from obj.checklist import Checklist
 from obj.widgets import ScrollFrame
-from lib.util import dict_to_string
+from lib.util import dict_to_string, load_json
 
 def run():
     data_path = Path(".") / "data"
@@ -51,9 +50,3 @@ def app_window(checklists):
     # crafting_ingredients.pack()
 
     window.mainloop()
-
-def load_json(file_path):
-    data = None
-    with open(file_path) as f:
-        data = json.load(f)
-    return data
