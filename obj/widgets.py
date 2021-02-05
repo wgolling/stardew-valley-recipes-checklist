@@ -1,12 +1,24 @@
 """Custom widgets for the user interface."""
 
 import tkinter as tk
+from lib.util import dict_to_string
+
+class ChecklistFrame(tk.Frame):
+
+    def __init__(self, parent, checklist, row=0):
+        tk.Frame.__init__(self, parent)
+        
+        frm_recipes = RecipesFrame(parent, checklist)
+        frm_recipes.grid(row=row, column=0)
+        frm_ingredients = IngredientsFrame(parent, checklist)
+        frm_ingredients.grid(row=row, column=1)
+
 
 # Implements Brian Oakley's answer to the following StackOverflow question:
 # https://stackoverflow.com/questions/3085696/adding-a-scrollbar-to-a-group-of-widgets-in-tkinter
 class ScrollFrame(tk.Frame):
-    def __init__(self, parent, content):
 
+    def __init__(self, parent, content):
         tk.Frame.__init__(self, parent)
         self.canvas = tk.Canvas(self, borderwidth=0, background="#ffffff")
         self.frame = tk.Frame(self.canvas, background="#ffffff")
@@ -38,3 +50,29 @@ class ScrollFrame(tk.Frame):
     def onFrameConfigure(self, event):
         """Reset the scroll region to encompass the inner frame."""
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+
+class RecipesFrame(ScrollFrame):
+
+    def populate(self, checklist):
+        recipes_string = dict_to_string(checklist.recipes)
+        lbl_recipes = tk.Label(
+            master=self.frame,
+            text=recipes_string, 
+            fg="white",
+            bg="#34A2FE"
+        )
+        lbl_recipes.pack()
+
+
+class IngredientsFrame(ScrollFrame):
+
+    def populate(self, checklist):
+        ingredients_string = dict_to_string(checklist.ingredients)
+        lbl_ingredients = tk.Label(
+            master=self.frame,
+            text=ingredients_string, 
+            fg="white",
+            bg="#34A2FE"
+        )
+        lbl_ingredients.pack()
