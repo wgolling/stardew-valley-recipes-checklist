@@ -1,6 +1,7 @@
 """Custom widgets for the user interface."""
 
 import tkinter as tk
+from functools import partial
 from lib.util import dict_to_string
 
 class ChecklistFrame(tk.Frame):
@@ -54,15 +55,14 @@ class ScrollFrame(tk.Frame):
 
 class RecipesFrame(ScrollFrame):
 
+    def toggle(self, recipe):
+        print(recipe)
+
     def populate(self, checklist):
-        recipes_string = dict_to_string(checklist.recipes)
-        lbl_recipes = tk.Label(
-            master=self.frame,
-            text=recipes_string, 
-            fg="white",
-            bg="#34A2FE"
-        )
-        lbl_recipes.pack()
+        for k in checklist.recipes.keys():
+            toggle_recipe = partial(self.toggle, str(k))
+            btn_recipe = tk.Button(master=self.frame, command=toggle_recipe, text=str(k))
+            btn_recipe.pack()
 
 
 class IngredientsFrame(ScrollFrame):
