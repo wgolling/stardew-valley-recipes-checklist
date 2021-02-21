@@ -9,10 +9,13 @@ class ChecklistFrame(tk.Frame):
     def __init__(self, parent, checklist, row=0):
         tk.Frame.__init__(self, parent)
         
-        frm_recipes = RecipesFrame(parent, checklist)
-        frm_recipes.grid(row=row, column=0)
-        frm_ingredients = IngredientsFrame(parent, checklist)
-        frm_ingredients.grid(row=row, column=1)
+        self.frm_recipes = RecipesFrame(self, checklist)
+        self.frm_recipes.grid(row=row, column=0)
+        self.frm_ingredients = IngredientsFrame(self, checklist)
+        self.frm_ingredients.grid(row=row, column=1)
+
+    def refresh_ingredients(self):
+        self.frm_ingredients.refresh_ingredients()
 
 
 # Implements Brian Oakley's answer to the following StackOverflow question:
@@ -37,16 +40,17 @@ class ScrollFrame(tk.Frame):
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
 
+        self.parent = parent
         self.populate(content)
 
     def populate(self, content):
-        cooking_recipes = tk.Label(
+        lbl_content = tk.Label(
             master=self.frame,
             text=content, 
             fg="white",
             bg="#34A2FE"
         )
-        cooking_recipes.pack()
+        lbl_content.pack()
 
     def onFrameConfigure(self, event):
         """Reset the scroll region to encompass the inner frame."""
@@ -59,8 +63,7 @@ class RecipesFrame(ScrollFrame):
         print(recipe)
         checklist.toggle_recipe(recipe)
         print(str(checklist.completed))
-        # Need to update IngredientsFrame as well.
-        # I think we should call an Update method in the parent frame.
+        self.parent.refresh_ingredients()
 
     def populate(self, checklist):
         for k in checklist.recipes.keys():
@@ -73,11 +76,16 @@ class RecipesFrame(ScrollFrame):
 class IngredientsFrame(ScrollFrame):
 
     def populate(self, checklist):
-        ingredients_string = dict_to_string(checklist.ingredients)
-        lbl_ingredients = tk.Label(
+        self.checklist = checklist
+        ingredients_string = dict_to_string(self.checklist.ingredients)
+        self.lbl_ingredients = tk.Label(
             master=self.frame,
             text=ingredients_string, 
             fg="white",
             bg="#34A2FE"
         )
-        lbl_ingredients.pack()
+        self.lbl_ingredients.pack()
+
+    def refresh_ingredients(self):
+        ingredients_string = dict_to_string(self.checklist.ingredients)
+        self.lbl_ingredients["text"] = ingredients_string
