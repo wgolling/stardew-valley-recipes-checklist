@@ -60,17 +60,24 @@ class ScrollFrame(tk.Frame):
 class RecipesFrame(ScrollFrame):
 
     def toggle(self, checklist, recipe):
-        print(recipe)
         checklist.toggle_recipe(recipe)
-        print(str(checklist.completed))
+        self.refresh_button(recipe)
         self.parent.refresh_ingredients()
 
     def populate(self, checklist):
+        self.checklist = checklist
+        self.buttons = dict()
         for k in checklist.recipes.keys():
             name = str(k)
             toggle_recipe = partial(self.toggle, checklist, name)
             btn_recipe = tk.Button(master=self.frame, command=toggle_recipe, text=name)
             btn_recipe.pack()
+            self.buttons[k] = btn_recipe
+
+    def refresh_button(self, recipe):        
+        button = self.buttons[recipe]
+        text = ("X " + recipe) if recipe in self.checklist.completed else recipe
+        button.configure(text=text)
 
 
 class IngredientsFrame(ScrollFrame):
