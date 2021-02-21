@@ -36,6 +36,8 @@ def dict_to_string(d):
     """Returns a readable string representing a dictionary."""
     result = ""
     for k, v in d.items():
+        if v == 0:
+            continue
         result += str(k) + ": " + str(v) + "\n"
     return result
 
