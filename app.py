@@ -6,7 +6,7 @@ from tkinter import filedialog
 
 from obj.checklist import Checklist
 from obj.widgets import ChecklistFrame
-from lib.util import dict_to_string, load_json
+from lib.util import dict_to_string, load_json, save_json
 
 def run():
     data_path = Path(".") / "data"
@@ -20,8 +20,8 @@ def app_window(checklists):
     crft = checklists[1]
     
     # Frames
-    def do_nothing():
-        print("Blah")
+    def new():
+        print("new")
 
     def load():
         filename = filedialog.askopenfilename(
@@ -29,13 +29,31 @@ def app_window(checklists):
                 title = "Select file",
                 filetypes = (("checklist files","*.chk"),("all files","*.*"))
         )        
+        load_data = load_json(filename)
+        print(str(load_data))
+
+    def save():
+        filename = filedialog.asksaveasfilename(
+                initialdir = Path(".") / "saves",
+                title = "Select file",
+                filetypes = (("checklist files","*.chk"),("all files","*.*"))
+        )
+
+        def set_to_dict(data):
+            return {key:1 for key in data}
+
+        save_data = {
+            "cooking":  set_to_dict(cook.completed),
+            "crafting": set_to_dict(crft.completed)
+        }
+        save_json(filename, save_data)
         print(filename)
 
     menubar = tk.Menu(window)
     filemenu = tk.Menu(menubar, tearoff=0)
-    filemenu.add_command(label="New", command=do_nothing)
+    filemenu.add_command(label="New", command=new)
     filemenu.add_command(label="Open", command=load)
-    filemenu.add_command(label="Save", command=do_nothing)
+    filemenu.add_command(label="Save", command=save)
     filemenu.add_separator()
     filemenu.add_command(label="Exit", command=window.quit)    
     menubar.add_cascade(label="File", menu=filemenu)
