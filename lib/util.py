@@ -21,7 +21,7 @@ def add_dicts(d1, d2, multiplier=1):
     For each key value pair in the second dictionary, the value is added to the
     value for that key in the first dictionary (with a default value of 0).
     There is an optional multiplier argument which multiplies the values in
-    the secdon dictionary.
+    the second dictionary.
     
     Args:
         d1 (dict): A dictionary with integer values.
