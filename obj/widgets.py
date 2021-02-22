@@ -29,11 +29,22 @@ class ChecklistFrame(tk.Frame):
 
         """
         tk.Frame.__init__(self, parent)
+        self.checklist = checklist
         
         self.frm_recipes = RecipesFrame(self, checklist)
         self.frm_recipes.grid(row=row, column=0)
         self.frm_ingredients = IngredientsFrame(self, checklist)
         self.frm_ingredients.grid(row=row, column=1)
+
+    def set_completed(self, completed_set):
+        """Sets the completed attribute of self.checklist and refreshes display."""
+        self.checklist.set_completed(completed_set)
+        self.refresh_display()
+
+    def refresh_display(self):
+        """Refreshes both the recipe and ingredient displays."""
+        self.frm_recipes.refresh_buttons()
+        self.refresh_ingredients()
 
     def refresh_ingredients(self):
         """Tells the ingredients frame to refresh its display."""
@@ -119,6 +130,11 @@ class RecipesFrame(ScrollFrame):
         self.checklist.toggle_recipe(recipe)
         self.refresh_button(recipe)
         self.parent.refresh_ingredients()
+
+    def refresh_buttons(self):
+        """Refreshes all buttons according to whether their recipe is complete."""
+        for recipe in self.buttons:
+            self.refresh_button(recipe)
 
     def refresh_button(self, recipe): 
         """Refreshes button display according to whether the recipe is complete."""

@@ -20,8 +20,18 @@ def app_window(checklists):
     crft = checklists[1]
     
     # Frames
+
+    ## Display
+    frm_cooking = ChecklistFrame(window, cook)
+    frm_cooking.grid(row=0, column=0)
+
+    frm_crafting = ChecklistFrame(window, crft, row=1)
+    frm_crafting.grid(row=1, column=0)
+
+    ## Menu helper functions
     def new():
-        print("new")
+        frm_cooking.set_completed(set())
+        frm_crafting.set_completed(set())
 
     def load():
         filename = filedialog.askopenfilename(
@@ -30,7 +40,8 @@ def app_window(checklists):
                 filetypes = (("checklist files","*.chk"),("all files","*.*"))
         )        
         load_data = load_json(filename)
-        print(str(load_data))
+        frm_cooking.set_completed(set(load_data["cooking"].keys()))
+        frm_crafting.set_completed(set(load_data["crafting"].keys()))
 
     def save():
         filename = filedialog.asksaveasfilename(
@@ -49,6 +60,8 @@ def app_window(checklists):
         save_json(filename, save_data)
         print(filename)
 
+    ## Menu bar
+
     menubar = tk.Menu(window)
     filemenu = tk.Menu(menubar, tearoff=0)
     filemenu.add_command(label="New", command=new)
@@ -57,12 +70,6 @@ def app_window(checklists):
     filemenu.add_separator()
     filemenu.add_command(label="Exit", command=window.quit)    
     menubar.add_cascade(label="File", menu=filemenu)
-
-    frm_cooking = ChecklistFrame(window, cook)
-    frm_cooking.grid(row=0, column=0)
-
-    frm_crafting = ChecklistFrame(window, crft, row=1)
-    frm_crafting.grid(row=1, column=0)
 
     window.config(menu=menubar)
     window.mainloop()
