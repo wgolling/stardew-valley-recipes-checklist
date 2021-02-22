@@ -93,10 +93,14 @@ class Checklist():
         return result
 
     @staticmethod
-    def _flatten_recipes_to_ingredients(recipes_table):
+    def _flatten_recipes_to_ingredients(recipes_table, completed=None):
         """Given a recipes table, returns the table of raw ingredient requirements."""
+        if not completed:
+            completed = set()
         result = dict()
-        for recipe in recipes_table.values():
+        for name, recipe in recipes_table.items():
+            if name in completed:
+                continue
             ingredients = Checklist._get_raw_ingredients(recipe, recipes_table)
             add_dicts(result, ingredients)
         return result
@@ -138,3 +142,20 @@ class Checklist():
         recipe = self.recipes[recipe_string]
         raw_ingredients = self._get_raw_ingredients(recipe, self.recipes)
         add_dicts(self.ingredients, raw_ingredients, multiplier=sign)
+
+    def set_completed(self, completed):
+        """Sets the completed attribute and updates the ingredient requirements.
+            Args:
+                completed (set): A set of recipes.
+
+            Raises:
+                ValueError: If `completed` is not a set.
+     
+        """
+        if not isinstance(completed, set):
+            raise ValueError("Input is not a set.")
+        self.completed = completed
+        self.ingredients = self._flatten_recipes_to_ingredients(
+                                self.recipes,
+                                completed=completed
+                            )
