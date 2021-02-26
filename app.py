@@ -49,19 +49,14 @@ def app_window(checklists):
                 title = "Select file",
                 filetypes = (("checklist files","*.chk"),("all files","*.*"))
         )
-
-        def set_to_dict(data):
-            return {key:1 for key in data}
-
+        # Can't write a set to json, so need to convert to dict.
         save_data = {
-            "cooking":  set_to_dict(cook.completed),
-            "crafting": set_to_dict(crft.completed)
+            "cooking":  dict.fromkeys(cook.completed, True),
+            "crafting": dict.fromkeys(crft.completed, True)
         }
         save_json(filename, save_data)
-        print(filename)
 
     ## Menu bar
-
     menubar = tk.Menu(window)
     filemenu = tk.Menu(menubar, tearoff=0)
     filemenu.add_command(label="New", command=new)
