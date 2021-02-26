@@ -1,3 +1,7 @@
+v0.3.0
+------
+- add menu bar with new/save/load/exit
+
 v0.2
 ----
 - create GUI containing frames for crafting and cooking recipe checklists
