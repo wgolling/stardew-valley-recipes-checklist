@@ -3,6 +3,7 @@
 from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import ttk
 
 from obj.checklist import Checklist
 from obj.widgets import ChecklistFrame
@@ -21,12 +22,23 @@ def app_window(checklists):
     
     # Frames
 
-    ## Display
-    frm_cooking = ChecklistFrame(window, cook)
-    frm_cooking.grid(row=0, column=0)
+    ## Notebook
+    ntb_parent = ttk.Notebook(window)
+    tab_cooking     = ttk.Frame(ntb_parent)
+    tab_crafting    = ttk.Frame(ntb_parent)
+    ntb_parent.add(tab_cooking, text="Cooking")
+    ntb_parent.add(tab_crafting, text="Crafting")
 
-    frm_crafting = ChecklistFrame(window, crft, row=1)
-    frm_crafting.grid(row=1, column=0)
+    ## Checklists
+    frm_cooking = ChecklistFrame(tab_cooking, cook)
+    frm_crafting = ChecklistFrame(tab_crafting, crft)
+
+    ## Pack widgets
+    frm_cooking.pack()
+    frm_crafting.pack()
+    ntb_parent.pack(expand=1, fill="both")    
+    
+    # Menu bar
 
     ## Menu helper functions
     def new():
@@ -49,22 +61,21 @@ def app_window(checklists):
                 title = "Select file",
                 filetypes = (("checklist files","*.chk"),("all files","*.*"))
         )
-        # Can't write a set to json, so need to convert to dict.
         save_data = {
-            "cooking":  dict.fromkeys(cook.completed, True),
+            "cooking":  dict.fromkeys(cook.completed, True),                 # Can't write a set to json, so need to convert to dict.
             "crafting": dict.fromkeys(crft.completed, True)
         }
         save_json(filename, save_data)
 
-    ## Menu bar
+    ## Menu definition
     menubar = tk.Menu(window)
-    filemenu = tk.Menu(menubar, tearoff=0)
-    filemenu.add_command(label="New", command=new)
-    filemenu.add_command(label="Open", command=load)
-    filemenu.add_command(label="Save", command=save)
-    filemenu.add_separator()
-    filemenu.add_command(label="Exit", command=window.quit)    
-    menubar.add_cascade(label="File", menu=filemenu)
+    mnu_file = tk.Menu(menubar, tearoff=0)
+    mnu_file.add_command(label="New", command=new)
+    mnu_file.add_command(label="Open", command=load)
+    mnu_file.add_command(label="Save", command=save)
+    mnu_file.add_separator()
+    mnu_file.add_command(label="Exit", command=window.quit)    
+    menubar.add_cascade(label="File", menu=mnu_file)
 
     window.config(menu=menubar)
     window.mainloop()
