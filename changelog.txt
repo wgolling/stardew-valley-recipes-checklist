@@ -1,3 +1,8 @@
+v0.4.0
+------
+- introduce tabs, one for cooking and one for crafting
+- use default look and feel
+
 v0.3.0
 ------
 - add menu bar with new/save/load/exit
