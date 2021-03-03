@@ -17,6 +17,7 @@ def run():
 
 def app_window(checklists):
     window = tk.Tk()
+    window.title("Stardew Valley Recipes Checklist")
     cook = checklists[0]
     crft = checklists[1]
     
