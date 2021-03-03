@@ -74,8 +74,8 @@ class ScrollFrame(tk.Frame):
 
         """
         tk.Frame.__init__(self, parent)
-        self.canvas = tk.Canvas(self, borderwidth=0, background="#ffffff")
-        self.frame = tk.Frame(self.canvas, background="#ffffff")
+        self.canvas = tk.Canvas(self, borderwidth=0)
+        self.frame = tk.Frame(self.canvas)
         self.vsb = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.vsb.set)
 
@@ -152,8 +152,7 @@ class IngredientsFrame(ScrollFrame):
         ingredients_string = dict_to_string(self.checklist.ingredients)
         self.lbl_ingredients = tk.Label(
             master=self.frame,
-            text=ingredients_string,
-            bg="white"
+            text=ingredients_string
         )
         self.lbl_ingredients.pack()
 
