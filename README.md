@@ -1,6 +1,6 @@
 # Stardew Valley Recipes Checklist
 
-v0.3.0
+v0.4.0
 
 Provides a GUI for keeping track of completed recipes, both cooking and crafting, and calculating remaining ingredient requirements. The user can save and load their progress.
 
@@ -18,7 +18,6 @@ python3 main.py
 
 ### Before v1.0
 
-- use tabs, one for cooking and one for crafting
 - integration testing
 - make scroll wheel work in scroll frames
 
