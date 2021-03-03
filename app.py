@@ -13,13 +13,11 @@ def run():
     data_path = Path(".") / "data"
     cook = Checklist(load_json(data_path / "cooking_recipes.json"))
     crft = Checklist(load_json(data_path / "crafting_recipes.json"))
-    app_window([cook, crft])
+    app_window(cook, crft)
 
-def app_window(checklists):
+def app_window(cook, crft):
     window = tk.Tk()
     window.title("Stardew Valley Recipes Checklist")
-    cook = checklists[0]
-    crft = checklists[1]
     
     # Frames
 
